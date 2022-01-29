@@ -4,7 +4,9 @@ import br.com.alura.leilao.dao.LeilaoDao;
 import br.com.alura.leilao.model.Lance;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Usuario;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -56,7 +58,27 @@ class FinalizarLeilaoServiceTest {
         Mockito.verify(enviadorDeEmails).enviarEmailVencedorLeilao(lanceVencedor);
     }
 
-    private List<Leilao> leilaos(){
+    @Test
+    void naoDeveriaEnviarEmailAoVencedorEmCasoErroAoEncerrarOLeilao() {
+        List<Leilao> leilaos = leilaos();
+        Mockito.when(leilaoDao.buscarLeiloesExpirados()).thenReturn(leilaos);
+        Mockito.when(leilaoDao.salvar(Mockito.any()))
+                .thenThrow(RuntimeException.class);
+
+        try {
+            finalizarLeilaoService.finalizarLeiloesExpirados();
+
+            // Verifica se o enviadorDeEmails não foi chamado o metodo
+            // enviarEmailVencedorLeilao com o param do vencedor do leilão
+            // em caso de error ao finalizar o leilão.
+            Mockito.verifyNoInteractions(enviadorDeEmails);
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    private List<Leilao> leilaos() {
         Leilao leilao1 = new Leilao("Celular", new BigDecimal(500), new Usuario("Foo"));
 
         Lance firstLance = new Lance(new Usuario("BAR"), new BigDecimal(600));
