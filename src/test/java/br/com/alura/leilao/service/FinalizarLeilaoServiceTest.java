@@ -20,12 +20,14 @@ class FinalizarLeilaoServiceTest {
     private FinalizarLeilaoService finalizarLeilaoService;
     @Mock
     private LeilaoDao leilaoDao;
+    @Mock
+    private EnviadorDeEmails enviadorDeEmails;
 
     @BeforeEach
     void init() {
 //        leilaoDao = Mockito.mock(LeilaoDao.class); // Outra forma é usando o @Mock mais MockitoAnnotations.initMocks
         MockitoAnnotations.initMocks(this); // ler as anotações do Mockito
-        this.finalizarLeilaoService = new FinalizarLeilaoService(leilaoDao);
+        this.finalizarLeilaoService = new FinalizarLeilaoService(leilaoDao, enviadorDeEmails);
     }
 
     @Test
@@ -39,6 +41,19 @@ class FinalizarLeilaoServiceTest {
 
         // Verifica se metodo salvar foi acionado com o param
         Mockito.verify(leilaoDao).salvar(leilao);
+    }
+
+    @Test
+    void deveriaEnviarEmailParaOVencedorDoLeitao() {
+        List<Leilao> leilaos = leilaos();
+        Mockito.when(leilaoDao.buscarLeiloesExpirados()).thenReturn(leilaos);
+        finalizarLeilaoService.finalizarLeiloesExpirados();
+        Leilao leilao = leilaos.get(0);
+        Lance lanceVencedor = leilao.getLanceVencedor();
+
+        // Verifica se o enviadorDeEmails foi chamado o metodo
+        // enviarEmailVencedorLeilao com o param do vencedor do leilão
+        Mockito.verify(enviadorDeEmails).enviarEmailVencedorLeilao(lanceVencedor);
     }
 
     private List<Leilao> leilaos(){
