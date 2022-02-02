@@ -7,6 +7,8 @@ import org.junit.jupiter.api.*;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UsuarioDaoTest {
@@ -16,15 +18,18 @@ class UsuarioDaoTest {
     @BeforeAll
     static void beforeAll() {
         em = JPAUtil.getEntityManager();
-        Usuario usuario = new Usuario("foo", "foo@gmail.com", "123");
-        em.getTransaction().begin();
-        em.persist(usuario);
-        em.getTransaction().commit();
     }
 
     @BeforeEach
     void setUp() {
+        em.getTransaction().begin();
         dao = new UsuarioDao(em);
+        listUser().forEach(em::persist);
+    }
+
+    @AfterEach
+    void tearDown() {
+        em.getTransaction().rollback();
     }
 
     @Test
@@ -41,5 +46,12 @@ class UsuarioDaoTest {
     @AfterAll
     static void afterAll() {
         em.close();
+    }
+
+    private List<Usuario> listUser(){
+        Usuario u1 = new Usuario("foo", "foo@gmail.com", "123");
+        Usuario u2 = new Usuario("foo_bar", "foo_bar@gmail.com", "123");
+        Usuario u3 = new Usuario("bar_foo", "bar_foo@gmail.com", "123");
+        return List.of(u1, u2, u3);
     }
 }
