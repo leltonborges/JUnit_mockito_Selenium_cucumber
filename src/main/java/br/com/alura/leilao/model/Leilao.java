@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.DecimalMin;
@@ -44,11 +43,6 @@ public class Leilao {
 
 	@OneToMany(mappedBy = "leilao")
 	private List<Lance> lances = new ArrayList<>();
-
-	@ManyToOne
-	private Lance lanceVencedor;
-
-	private Boolean fechado = false;
 
 	@Deprecated
 	public Leilao() {
@@ -98,8 +92,9 @@ public class Leilao {
 		return java.util.Date.from(this.dataAbertura.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 	}
 
-	public boolean isFechado() {
-		return this.fechado;
+	public boolean isAberto() {
+		LocalDate hoje = LocalDate.now();
+		return hoje.isAfter(this.dataAbertura) || hoje.isEqual(dataAbertura);
 	}
 
 	public void setNome(String nome) {
@@ -183,24 +178,8 @@ public class Leilao {
 		return Collections.unmodifiableList(lances);
 	}
 
-	public Boolean getFechado() {
-		return fechado;
-	}
-
 	public boolean temLances() {
 		return !this.lances.isEmpty();
-	}
-
-	public void setLanceVencedor(Lance maiorLance) {
-		this.lanceVencedor = maiorLance;
-	}
-
-	public void fechar() {
-		this.fechado = true;
-	}
-	
-	public Lance getLanceVencedor() {
-		return lanceVencedor;
 	}
 
 }
