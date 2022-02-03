@@ -3,7 +3,11 @@ package br.com.alura.leilao.dao;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Usuario;
 import br.com.alura.leilao.util.JPAUtil;
+
 import static org.junit.jupiter.api.Assertions.*;
+
+import br.com.alura.leilao.util.builder.LeilaoBuider;
+import br.com.alura.leilao.util.builder.UsuarioBuilder;
 import org.junit.jupiter.api.*;
 
 import javax.persistence.EntityManager;
@@ -15,7 +19,7 @@ class LeilaoDaoTest {
     private LeilaoDao leilaoDao;
     private static EntityManager em;
     private static Usuario user;
-    private  static Leilao leilao;
+    private static Leilao leilao;
 
     @BeforeAll
     static void beforeAll() {
@@ -26,11 +30,21 @@ class LeilaoDaoTest {
     void setUp() {
         usuarioDao = new UsuarioDao(em);
         leilaoDao = new LeilaoDao(em);
-        user = new Usuario("foo", "foo@gmail.com", "123");
+        user = new UsuarioBuilder()
+                .comNome("Foo")
+                .comEmail("foo@foo")
+                .comSenha("1234")
+                .build();
 
         em.getTransaction().begin();
         em.persist(user);
-        leilao = new Leilao("Mochila", new BigDecimal(80), LocalDate.now(), user);
+
+        leilao = new LeilaoBuider()
+                .comNome("Mochila")
+                .comValueInicial(new BigDecimal(500))
+                .comData(LocalDate.now())
+                .comUsuario(user)
+                .builder();
 
     }
 

@@ -2,6 +2,7 @@ package br.com.alura.leilao.dao;
 
 import br.com.alura.leilao.model.Usuario;
 import br.com.alura.leilao.util.JPAUtil;
+import br.com.alura.leilao.util.builder.UsuarioBuilder;
 import org.junit.jupiter.api.*;
 
 import javax.persistence.EntityManager;
@@ -23,7 +24,11 @@ class UsuarioDaoTest {
     void setUp() {
         em.getTransaction().begin();
         dao = new UsuarioDao(em);
-        user = new Usuario("foo", "foo@gmail.com", "123");
+        user = new UsuarioBuilder()
+                .comNome("Foo")
+                .comEmail("foo@foo")
+                .comSenha("1234")
+                .build();
         em.persist(user);
     }
 
