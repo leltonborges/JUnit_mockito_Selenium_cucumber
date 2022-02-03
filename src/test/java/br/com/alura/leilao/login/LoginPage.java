@@ -1,5 +1,7 @@
 package br.com.alura.leilao.login;
 
+import br.com.alura.leilao.config.Page;
+import br.com.alura.leilao.leilao.LeilaoPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -21,6 +23,7 @@ public class LoginPage {
     public void setUrlNagivate(String suffix) {
         browser.navigate().to(URL_BASE.trim().concat(suffix.trim()));
     }
+
 
     public void inputValuesFormularioLogin(String username, String password) {
         browser.findElement(By.id("username")).sendKeys(username);
@@ -44,5 +47,14 @@ public class LoginPage {
 
     public boolean getContaisIsPageSource(String text) {
         return browser.getPageSource().contains(text);
+    }
+
+    public void setUrlNagivate(Page login) {
+        browser.navigate().to(login.getUrlBase());
+    }
+
+    public LeilaoPage efetuarLogin() {
+        browser.findElement(By.id("login-form")).submit();
+        return new LeilaoPage(browser);
     }
 }
