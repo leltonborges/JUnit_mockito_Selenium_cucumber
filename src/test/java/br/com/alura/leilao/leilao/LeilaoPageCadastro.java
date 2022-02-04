@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
-public class LeilaoPageCadastro {
-    private WebDriver browser;
+public class LeilaoPageCadastro extends PageObject{
 
     @FindBy(id = "nome")
     public WebElement name;
@@ -25,9 +24,9 @@ public class LeilaoPageCadastro {
     @FindBy(id = "button-submit")
     public WebElement buttonsubmit;
 
-    public LeilaoPageCadastro(WebDriver browser) {
+    public LeilaoPageCadastro(WebDriver driver) {
+        super(driver);
         PageFactory.initElements(browser, this);
-        this.browser = browser;
     }
 
     public LeilaoPageList saveLeilaoAndSubmint(String name, String value, String nowDate) {
@@ -37,6 +36,6 @@ public class LeilaoPageCadastro {
         /// FIXME: 2/3/22  Não esta funcionado o insert da data
 
         buttonsubmit.click();
-        return new LeilaoPageList(browser);
+        return new LeilaoPageList(this.browser);
     }
 }

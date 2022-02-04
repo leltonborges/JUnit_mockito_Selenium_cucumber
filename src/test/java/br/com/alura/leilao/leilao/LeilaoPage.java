@@ -9,16 +9,15 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.Set;
 
-public class LeilaoPage {
+public class LeilaoPage extends PageObject{
+
+    public LeilaoPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(browser, this);
+    }
+
     @FindBy(id = "novo_leilao_link")
     private WebElement btnNewLeilao;
-
-    private WebDriver browser;
-
-    public LeilaoPage(WebDriver browser) {
-        PageFactory.initElements(browser, this);
-        this.browser = browser;
-    }
 
     public void closeBrowser() {
         browser.quit();
@@ -26,11 +25,8 @@ public class LeilaoPage {
 
     public LeilaoPageCadastro loadFormNewLeilao() {
         btnNewLeilao.click();
-        return new LeilaoPageCadastro(browser);
-    }
-
-    public boolean isPageLeiloes() {
-        return browser.getCurrentUrl().equals(Page.LEILOES.getUrlBase());
+//        browser.findElement(By.id("novo_leilao_link")).click();
+        return new LeilaoPageCadastro(this.browser);
     }
 
     public boolean isMessageValidad() {

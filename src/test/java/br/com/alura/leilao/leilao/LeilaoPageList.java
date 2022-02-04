@@ -5,18 +5,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-// about:blank
-public class LeilaoPageList {
+public class LeilaoPageList extends PageObject{
 
     @FindBy(css = "#tabela-leiloes tbody tr:last-child")
     public WebElement lastRow;
-    private WebDriver browser;
 
-    public LeilaoPageList(WebDriver browser) {
-        PageFactory.initElements(browser, this);
-        this.browser = browser;
+    public LeilaoPageList(WebDriver driver) {
+        super(driver);
     }
 
     public boolean isContainsSourcePage(String nome, String valor, String nowDate) {
@@ -27,10 +23,6 @@ public class LeilaoPageList {
         return columnName.getText().equals(nome)
                 && columnDate.getText().equals(nowDate)
                 && columnValue.getText().equals(valor);
-    }
-
-    public boolean isPageLeiloes() {
-        return browser.getCurrentUrl().equals(Page.LEILOES.getUrlBase());
     }
 
     public String page() {

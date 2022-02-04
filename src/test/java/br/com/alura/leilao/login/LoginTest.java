@@ -1,13 +1,11 @@
 package br.com.alura.leilao.login;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginTest {
 

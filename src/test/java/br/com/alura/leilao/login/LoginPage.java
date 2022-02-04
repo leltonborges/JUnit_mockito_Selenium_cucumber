@@ -1,36 +1,16 @@
 package br.com.alura.leilao.login;
 
+import br.com.alura.leilao.PageService;
 import br.com.alura.leilao.config.Page;
 import br.com.alura.leilao.leilao.LeilaoPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-public class LoginPage {
-    private static final String URL_BASE = "http://localhost:8080";
-    private static WebDriver browser;
-
-    public LoginPage() {
-        System.setProperty("webdriver.chrome.driver", "driverSelenium/chromedriver");
-        browser = new ChromeDriver();
-//        System.setProperty("webdriver.gecko.driver", "driverSelenium/geckodriver");
-//        browser = new FirefoxDriver();
-    }
-
-    public void closeBrowser() {
-        browser.quit();
-    }
+public class LoginPage extends PageService {
 
     public void setUrlNagivate(String suffix) {
         browser.navigate().to(URL_BASE.trim().concat(suffix.trim()));
     }
-
 
     public void inputValuesFormularioLogin(String username, String password) {
         browser.findElement(By.id("username")).sendKeys(username);
@@ -61,6 +41,6 @@ public class LoginPage {
 
     public LeilaoPage efetuarLogin() {
         browser.findElement(By.id("login-form")).submit();
-        return new LeilaoPage(browser);
+        return new LeilaoPage(this.browser);
     }
 }
