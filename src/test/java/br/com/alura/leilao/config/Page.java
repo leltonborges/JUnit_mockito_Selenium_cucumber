@@ -5,7 +5,7 @@ public enum Page {
     LEILAO(Page.BASE_URL.concat("/leilao")),
     LANCE(Page.BASE_URL.concat("/lance"));
 
-    public static final String BASE_URL = "http://localhost:8080";
+    public static final String BASE_URL = "http://192.168.1.67:8080";
     private final String urlBase;
 
     Page(String urlBase) {

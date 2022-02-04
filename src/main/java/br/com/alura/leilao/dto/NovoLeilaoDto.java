@@ -28,7 +28,7 @@ public class NovoLeilaoDto {
 	private BigDecimal valorInicial;
 
 	@NotNull(message = "deve ser uma data no formato dd/MM/yyyy")
-	@Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$", message = "deve ser uma data no formato dd/MM/yyyy")
+//	@Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$", message = "deve ser uma data no formato dd/MM/yyyy")
 	private String dataAbertura;
 
 	public NovoLeilaoDto(Leilao leilao) {

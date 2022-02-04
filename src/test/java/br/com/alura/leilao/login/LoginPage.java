@@ -6,6 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class LoginPage {
     private static final String URL_BASE = "http://localhost:8080";
@@ -14,6 +19,8 @@ public class LoginPage {
     public LoginPage() {
         System.setProperty("webdriver.chrome.driver", "driverSelenium/chromedriver");
         browser = new ChromeDriver();
+//        System.setProperty("webdriver.gecko.driver", "driverSelenium/geckodriver");
+//        browser = new FirefoxDriver();
     }
 
     public void closeBrowser() {
@@ -32,7 +39,6 @@ public class LoginPage {
 
     public void submitForm() {
         browser.findElement(By.id("login-form")).submit();
-//        browser.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     public boolean isPageLogin(String param) {
