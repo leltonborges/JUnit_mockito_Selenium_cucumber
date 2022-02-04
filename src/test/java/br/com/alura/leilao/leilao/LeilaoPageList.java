@@ -1,5 +1,6 @@
 package br.com.alura.leilao.leilao;
 
+import br.com.alura.leilao.config.Page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,11 +12,11 @@ public class LeilaoPageList {
 
     @FindBy(css = "#tabela-leiloes tbody tr:last-child")
     public WebElement lastRow;
-    private WebDriver driver;
+    private WebDriver browser;
 
     public LeilaoPageList(WebDriver browser) {
         PageFactory.initElements(browser, this);
-        this.driver = browser;
+        this.browser = browser;
     }
 
     public boolean isContainsSourcePage(String nome, String valor, String nowDate) {
@@ -26,5 +27,13 @@ public class LeilaoPageList {
         return columnName.getText().equals(nome)
                 && columnDate.getText().equals(nowDate)
                 && columnValue.getText().equals(valor);
+    }
+
+    public boolean isPageLeiloes() {
+        return browser.getCurrentUrl().equals(Page.LEILOES.getUrlBase());
+    }
+
+    public String page() {
+        return browser.getCurrentUrl();
     }
 }
