@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class LeilaoTest {
@@ -103,4 +105,22 @@ public class LeilaoTest {
         assertEquals(new BigDecimal("11000.0"), leilao.getLances().get(leilao.getLances().size()-1).getValor());
     }
 
+    @Nested
+    @DisplayName("Dado um lance valido")
+    class UnicoLanceTests{
+        Leilao leilao = new Leilao("Notebook");
+        BigDecimal doisMil = new BigDecimal(2000);
+
+        @Nested
+        @DisplayName("Quando propoe o lance")
+        class AssertLanceNormal{
+            @Test
+            @DisplayName("Então o lance eh aceito")
+            public void deveReceberUmLance(){
+                leilao.propoe(new Lance(new Usuario("Foo"), doisMil));
+                assertEquals(1, leilao.getLances().size());
+                assertEquals(doisMil, leilao.getLances().get(0).getValor());
+            }
+        }
+    }
 }
