@@ -1,8 +1,13 @@
 # language: pt
 
-Funcionalidade: Propondeo lances
+Funcionalidade: Propondo lances ao leilao
 
   Cenario: Propondo um unico lance valido
-    Dado Dado um lance valido
-    Quando Quando propoe o lance
-    Entao Entao o lance eh aceito
+    Dado um lance valido
+    Quando propoe ao leilao
+    Entao lance eh aceito
+
+  Cenario: Propondo varios lances
+    Dado varios lances validos
+    Quando propoe varios ao lailao
+    Entao os lances sao aceitos
