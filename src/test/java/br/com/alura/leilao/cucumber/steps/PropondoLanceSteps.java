@@ -63,12 +63,23 @@ public class PropondoLanceSteps {
     public void propoe_varios_ao_lailao() {
         lista.forEach(leilao::propoe);
     }
+
     @Entao("os lances sao aceitos")
     public void os_lances_sao_aceitos() {
         assertEquals(lista.size(), leilao.getLances().size());
         assertEquals(lista.get(0).getValor(), leilao.getLances().get(0).getValor());
         assertEquals(lista.get(1).getValor(), leilao.getLances().get(1).getValor());
         assertEquals(lista.get(2).getValor(), leilao.getLances().get(2).getValor());
+    }
+
+    @Dado("um lance de {double} reais e do usuario {string}")
+    public void um_lance_de_reais(Double value, String name) {
+        lance1 = new Lance(new BigDecimal(value));
+    }
+
+    @Entao("o lance não é aceito")
+    public void o_lance_nao_e_aceito() {
+        assertEquals(0, leilao.getLances().size());
     }
 
 }
