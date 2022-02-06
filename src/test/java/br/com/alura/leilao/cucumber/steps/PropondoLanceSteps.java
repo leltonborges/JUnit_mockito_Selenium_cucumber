@@ -3,6 +3,7 @@ package br.com.alura.leilao.cucumber.steps;
 import br.com.alura.leilao.model.Lance;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Usuario;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
@@ -11,6 +12,7 @@ import io.cucumber.java.pt.Quando;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -81,5 +83,24 @@ public class PropondoLanceSteps {
     public void o_lance_nao_e_aceito() {
         assertEquals(0, leilao.getLances().size());
     }
+
+    @Dado("dois lances")
+    public void dois_lances(DataTable dataTable) {
+        List<Map<String, String>> maps = dataTable.asMaps();
+        maps.forEach((v) -> {
+            String valor = v.get("value");
+            String name = v.get("user");
+            Lance lance = new Lance(new Usuario(name), new BigDecimal(valor));
+
+            lista.add(lance);
+        });
+    }
+
+    @Entao("o segundo lance nao eh aceito")
+    public void o_segundo_lance_nao_eh_aceito() {
+        assertEquals(1, leilao.getLances().size());
+        assertEquals(lista.get(0).getValor(), leilao.getLances().get(0).getValor());
+    }
+
 
 }

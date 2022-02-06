@@ -24,3 +24,12 @@ Funcionalidade: Propondo lances ao leilao
     | value | usuario |
     |    0  |  Foo    |
     |   -1  |  Bar    |
+
+  Cenario: Propondo uma sequencia de lances
+    Dado dois lances
+      | value |   user  |
+      |   10  |   Foo   |
+      |   15  |   Foo   |
+    Quando propoe varios ao lailao
+    Entao o segundo lance nao eh aceito
+
